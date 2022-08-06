@@ -1,104 +1,88 @@
 // 21CE097 Manav Patel
 /*
-Design a class named Account that contains:
-•A private int data field namedid for the account (default 0).
-•A private double data field named balance for the account (default 500₹).
-•A  private  double  data  field  named  annualInterestRate  that  stores  the  currentinterest rate (default 7%). Assume all accounts have the same interest rate.
-•A  private  Date  data  field  named  dateCreated  that  stores  the  date  when  theaccount was created.
-•A no-arg constructor that creates a default account.
-•A constructor that creates an account with the specified id and initial balance.
-•The accessor and mutator methods for id, balance, and annualInterestRate.
-•The accessor method for dateCreated.
-•A method named getMonthlyInterestRate() that returns the monthlyinterest rate.
-•A method named getMonthlyInterest() that returns the monthly interest.
-•A method named withdraw that withdraws a specified amount from theaccount.
-•A method named deposit that deposits aspecified amount to the account.
-
+ (Subclasses  of  Account)  In  Programming  Exercise  2,  the  Account  class  wasdefined to model a bank account. An account has the properties account number,balance,  annual  interestrate,  and  date  created,  and  methods  to  deposit  and withdrawfunds.  Create  two  subclasses  for  checking  and  saving  accounts.  A checkingaccount  has  an  overdraft  limit,  but  a  savings  account  cannot  be overdrawn.Draw  the  UML  diagram  for  the  classes  and  then implement  them. Writea  test  program  that  creates  objects  of  Account,  SavingsAccount,  andCheckingAccount and invokes their toString() methods.
  */
-
-import java.util.Date;
+import java.sql.Date;
 
 public class Account {
-
-    private int id=0;
+    
+    private int id;
     private double balance=500;
-    private double annualInterestRate=7;
-    private Date dateCreated= new Date();
+    private static double annualInterestRate=7;
+    private Date dateCreated;
 
-    Account(){}
-    public double getAnnualInterestRate() {
-        return annualInterestRate;
+    
+    Account() {
+        this(0, 0); 
     }
-    public void setAnnualInterestRate(double annualInterestRate) {
-        this.annualInterestRate = annualInterestRate;
-    }
-    public int  setDateCreated() {
-        return setDateCreated();
-    }
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-    public double getBalance() {
-        return balance;
-    }
-    public void setBalance(double balance) {
+
+   
+    Account(int id, double balance) {
+        this.id = id;
         this.balance = balance;
+        annualInterestRate = 7;
+        dateCreated = new Date(id);
     }
-    public int getId() {
-        return id;
-    }
+
+    
     public void setId(int id) {
         this.id = id;
     }
-    Account(int a,double b,double c){
-        id=a;
-        balance=b;
-        annualInterestRate=c;
-    }
-    Account(Date x){
-        dateCreated=x;
+
+    
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
-    public Date AccDate(){
-        return dateCreated;
+    
+    public void setAnnualInterestRate(double annualInterestRate) {
+        Account.annualInterestRate = annualInterestRate;
+    }
+  
+    
+    public int getId() {
+        return id;
     }
 
-    public void getMonthlyInterestRate(){
-        
-        double m_IR=annualInterestRate;
-
-        System.out.println("Monthly interest rate: "+m_IR/(12));
+    
+    public double getBalance() {
+        return balance;
     }
 
-    public void getMonthlyInterest(){
-        double m_=annualInterestRate;
-        double  b2=balance;
-        double m_in=(m_/(100*12));
-        b2=b2*m_in;
-        System.out.println("Monthly interest :"+ b2);
+    
+    public double getAnnualInterestRate() {
+        return annualInterestRate;
     }
 
-    public void withdraw(double a){
-        double b1=balance;
-        b1=b1-a;
-        System.out.println("Withdraw amount :"+a);
-        System.out.println("After withdraw remaining balance:"+b1);
+  
+    public String getDateCreated() {
+        return dateCreated.toString();
     }
-   public void  deposit(double b){
-    double b2=balance;
-       b2=b2+b;
-       System.out.println("Deposit amount :"+b);
-       System.out.println("After Deposit balance: "+b2);
-   }
 
-   public static void main(String[] args) {
-    Account a1=new Account(10,2500,7);
- 
-    a1.getMonthlyInterestRate();;
-    a1.getMonthlyInterest();
-    a1.deposit(250);
-    a1.withdraw(100);
-    a1.AccDate();
-    System.out.println(a1.AccDate());
-}
+    
+    public double getMonthlyInterestRate() {
+        return annualInterestRate / 12;
+    }
+
+    
+    public double getMonthlyInterest() {
+        return balance * (getMonthlyInterestRate() / 100);
+    }
+
+    
+    public void withdraw(double amount) {
+        balance = balance- amount;
+    }
+
+    
+    public void deposit(double amount) {
+        balance = balance + amount;
+    }
+
+    /* Return a String decription of Account class */
+    public String toString() {
+        return "\nAccount ID: " + id + 
+             "\nBalance: " + String.format("%.2f", balance) + 
+            "\nMonthly interest: " + String.format("%.2f", getMonthlyInterest());
+    }
 }
